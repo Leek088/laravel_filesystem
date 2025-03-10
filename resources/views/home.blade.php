@@ -39,6 +39,12 @@
                     <a href="{{ route('storage.local.delete.folder') }}" class="btn btn-primary">
                         Deletar pasta do storage local
                     </a>
+                    <a href="{{ route('storage.local.metadata.files') }}" class="btn btn-primary">
+                        Mostrar metadatas dos arquivos
+                    </a>
+                    <a href="{{ route('storage.local.list.files.download') }}" class="btn btn-primary">
+                        Mostrar arquivos para download
+                    </a>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -95,4 +96,41 @@ class FileController extends Controller
         Storage::disk('local')->deleteDirectory('documents');
         echo 'Diretorio documents excluído!';
     }
+
+    public function storageLocalMetadataFiles(): View
+    {
+        $list_files = Storage::disk('local')->files();
+
+        $files = [];
+
+        foreach ($list_files as $file) {
+            $files[] = [
+                'name' => $file,
+                'size' => round(Storage::size($file) / 1024, 2) . ' Kb',
+                'last_modified' => Carbon::createFromTimestamp(Storage::lastModified($file))->format('d-m-Y H:i:s'),
+                'mime_type' => Storage::mimeType($file)
+
+            ];
+
+        }
+
+        return view('list-files-with-metadata', compact('files'));
+    }
+
+    public function storageLocalListFilesDownload(): View
+    {
+        $list_files = Storage::disk('public')->files();
+
+        $files = [];
+
+        foreach ($list_files as $file) {
+            $files[] = [
+                'name' => $file,
+                'size' => round(Storage::disk('public')->size($file) / 1024, 2) . ' Kb',
+                'url_download' => Storage::url($file),
+            ];
+        }
+        return view('list-files-with-download', compact('files'));
+    }
+
 }
