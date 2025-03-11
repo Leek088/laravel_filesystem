@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\View\View;
@@ -141,6 +142,18 @@ class FileController extends Controller
         }
 
         abort(404, 'File not found.');
+    }
+
+    public function storageLocalUploadFile(Request $request): void
+    {
+        $request->validate([
+            'file' => 'required|mimes:png,jpg,pdf'
+        ]);
+
+        $file = $request->file('file');
+        $file->storeAs('/', $file->getClientOriginalName(), 'public');
+
+        echo 'Arquivo enviado com sucesso';
     }
 
 }

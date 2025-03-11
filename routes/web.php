@@ -19,4 +19,5 @@ route::controller(FileController::class)->group(function (): void {
     Route::get('/storage_local_metadata_files', 'storageLocalMetadataFiles')->name('storage.local.metadata.files');
     Route::get('/storage_local_list_files_download', 'storageLocalListFilesDownload')->name('storage.local.list.files.download');
     Route::get('/storage_local_file_download/{file}', 'storageLocalFileDownload')->name('storage.local.file.download');
+    Route::post('/storage_local_upload_file', 'storageLocalUploadFile')->name('storage.local.upload.file');
 });

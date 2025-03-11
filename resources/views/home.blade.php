@@ -46,6 +46,24 @@
                         Mostrar arquivos para download
                     </a>
                 </div>
+                <hr>
+                <div>
+                    <p class="display-6">Upload de arquivos</p>
+                    <form action="{{ route('storage.local.upload.file') }}" method="post"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="file" class="form-label">Arquivo:</label>
+                            <input type="file" class="form-control" id="file" name="file">
+                            @error('file')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary px-5">Enviar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
