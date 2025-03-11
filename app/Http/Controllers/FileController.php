@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
 
@@ -127,10 +128,19 @@ class FileController extends Controller
             $files[] = [
                 'name' => $file,
                 'size' => round(Storage::disk('public')->size($file) / 1024, 2) . ' Kb',
-                'url_download' => Storage::url($file),
+                'url_download' => route('storage.local.file.download', ['file' => $file])
             ];
         }
         return view('list-files-with-download', compact('files'));
+    }
+
+    public function storageLocalFileDownload(string $file): StreamedResponse
+    {
+        if (Storage::disk('public')->exists($file)) {
+            return Storage::disk('public')->download($file);
+        }
+
+        abort(404, 'File not found.');
     }
 
 }
